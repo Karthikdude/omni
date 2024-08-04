@@ -17,23 +17,32 @@ document.addEventListener('DOMContentLoaded', () => {
     acceptBtn.addEventListener('click', hidePopup);
 
     window.generateCodes = function() {
-        const numCodes = document.getElementById('numCodes').value;
-        const codeLength = document.getElementById('codeLength').value;
-        const charset = document.getElementById('charset').value || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        const prefix = document.getElementById('prefix').value;
-        const postfix = document.getElementById('postfix').value;
-        const pattern = document.getElementById('pattern').value;
-        const exampleCodes = document.getElementById('exampleCodes').value.split('\n').filter(code => code);
+        const numCodes = parseInt(document.getElementById('numCodes').value) || 1;
+        const exampleCodes = document.getElementById('exampleCodes').value.split('\n').filter(code => code.trim());
 
         let codes = [];
 
-        for (let i = 0; i < numCodes; i++) {
-            if (exampleCodes.length > 0) {
-                codes.push(exampleCodes[i % exampleCodes.length]);
-            } else if (pattern) {
-                codes.push(generatePatternCode(pattern, charset, prefix, postfix));
+        if (exampleCodes.length > 0) {
+            // Generate similar codes based on example codes
+            for (let i = 0; i < numCodes; i++) {
+                codes.push(generateSimilarCode(exampleCodes[i % exampleCodes.length]));
+            }
+        } else {
+            // Fallback to default code generation logic if no example codes are provided
+            const codeLength = parseInt(document.getElementById('codeLength').value) || 10;
+            const charset = document.getElementById('charset').value || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const prefix = document.getElementById('prefix').value || '';
+            const postfix = document.getElementById('postfix').value || '';
+            const pattern = document.getElementById('pattern').value || '';
+
+            if (pattern) {
+                for (let i = 0; i < numCodes; i++) {
+                    codes.push(generatePatternCode(pattern, charset, prefix, postfix));
+                }
             } else {
-                codes.push(generateRandomCode(codeLength, charset, prefix, postfix));
+                for (let i = 0; i < numCodes; i++) {
+                    codes.push(generateRandomCode(codeLength, charset, prefix, postfix));
+                }
             }
         }
 
@@ -54,6 +63,32 @@ document.addEventListener('DOMContentLoaded', () => {
             code += char === '#' ? charset.charAt(Math.floor(Math.random() * charset.length)) : char;
         }
         return prefix + code + postfix;
+    }
+
+    function generateSimilarCode(exampleCode) {
+        const pattern = extractPattern(exampleCode);
+        let similarCode = '';
+
+        for (let i = 0; i < pattern.length; i++) {
+            if (pattern[i] === '#') {
+                similarCode += generateRandomCharacter();
+            } else {
+                similarCode += pattern[i];
+            }
+        }
+
+        return similarCode;
+    }
+
+    function extractPattern(exampleCode) {
+        return exampleCode.split('').map(char => {
+            return /[A-Z0-9]/.test(char) ? '#' : char;
+        }).join('');
+    }
+
+    function generateRandomCharacter() {
+        const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Define charset for random characters
+        return charset.charAt(Math.floor(Math.random() * charset.length));
     }
 
     window.useTemplate = function(template) {
