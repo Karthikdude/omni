@@ -1,0 +1,185 @@
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$background-color: #1e1e2e;
+$text-color: #ecf0f1;
+$border-radius: 8px;
+$font-family: 'Arial', sans-serif;
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: $font-family;
+    background-color: $background-color;
+    color: $text-color;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: linear-gradient(145deg, darken($background-color, 5%), lighten($background-color, 5%));
+    border-radius: $border-radius;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s;
+
+    &:hover {
+        transform: scale(1.01);
+    }
+}
+
+h1 {
+    text-align: center;
+    color: $primary-color;
+    margin-bottom: 20px;
+    font-size: 2em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .form-group {
+        width: 48%;
+        margin-bottom: 20px;
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: lighten($primary-color, 20%);
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid $primary-color;
+            border-radius: $border-radius;
+            background-color: lighten($background-color, 5%);
+            color: $text-color;
+            font-family: $font-family;
+
+            &:focus {
+                border-color: $secondary-color;
+                outline: none;
+                box-shadow: 0 0 5px rgba(46, 204, 113, 0.5);
+            }
+        }
+
+        textarea {
+            resize: vertical;
+        }
+    }
+
+    .form-actions {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: $border-radius;
+            background-color: $primary-color;
+            color: $text-color;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-family: $font-family;
+            font-size: 1em;
+
+            &:hover {
+                background-color: lighten($primary-color, 10%);
+                transform: translateY(-2px);
+            }
+
+            &:first-of-type {
+                background-color: $secondary-color;
+
+                &:hover {
+                    background-color: lighten($secondary-color, 10%);
+                }
+            }
+        }
+    }
+}
+
+.templates {
+    margin-top: 20px;
+
+    h2 {
+        text-align: center;
+        color: $primary-color;
+        margin-bottom: 10px;
+        font-size: 1.5em;
+    }
+
+    .template-btn {
+        width: calc(50% - 10px);
+        margin: 5px;
+        padding: 10px;
+        border: none;
+        border-radius: $border-radius;
+        background-color: $primary-color;
+        color: $text-color;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        display: block;
+        text-align: center;
+        font-family: $font-family;
+        font-size: 1em;
+
+        &:hover {
+            background-color: lighten($primary-color, 10%);
+            transform: translateY(-2px);
+        }
+    }
+}
+
+.codes {
+    margin-top: 20px;
+
+    .code {
+        position: relative;
+        background-color: lighten($background-color, 10%);
+        border: 1px solid $primary-color;
+        padding: 10px;
+        border-radius: $border-radius;
+        font-family: monospace;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: transform 0.3s;
+
+        &:hover {
+            transform: scale(1.02);
+        }
+
+        &::before {
+            content: attr(data-code);
+            flex-grow: 1;
+            padding-right: 10px;
+        }
+
+        .copy-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: $border-radius;
+            background-color: $secondary-color;
+            color: $text-color;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-family: $font-family;
+
+            &:hover {
+                background-color: lighten($secondary-color, 10%);
+                transform: translateY(-2px);
+            }
+        }
+    }
+}

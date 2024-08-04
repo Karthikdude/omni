@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Code Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="fullpage-popup" id="fullPagePopup">
+        <div class="popup-content">
+            <h2>Terms and Conditions</h2>
+            <p>This tool is for educational purposes only. By using this tool, you agree that you will not use it for any illegal activities or unauthorized purposes.</p>
+            <button id="acceptBtn">I Accept</button>
+        </div>
+    </div>
+
+    <div class="welcome-message" id="welcomeMessage">
+        <h2>Welcome to the Futuristic Code Generator!</h2>
+    </div>
+
+    <div class="container">
+        <h1>Futuristic Random Code Generator</h1>
+        <form id="codeForm" class="form">
+            <div class="form-group">
+                <label for="numCodes">Number of codes:</label>
+                <input type="number" id="numCodes" name="numCodes" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="codeLength">Single code length:</label>
+                <input type="number" id="codeLength" name="codeLength" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="charset">Character set:</label>
+                <input type="text" id="charset" name="charset" placeholder="Default: letters and digits">
+            </div>
+            <div class="form-group">
+                <label for="prefix">Code prefix:</label>
+                <input type="text" id="prefix" name="prefix" placeholder="None">
+            </div>
+            <div class="form-group">
+                <label for="postfix">Code postfix:</label>
+                <input type="text" id="postfix" name="postfix" placeholder="None">
+            </div>
+            <div class="form-group">
+                <label for="pattern">Code pattern:</label>
+                <input type="text" id="pattern" name="pattern" placeholder="Random">
+            </div>
+            <div class="form-group">
+                <label for="exampleCodes">Example codes:</label>
+                <textarea id="exampleCodes" name="exampleCodes" rows="4" placeholder="Optional"></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="generateCodes()">Generate</button>
+                <button type="button" onclick="clearFields()">Clear</button>
+            </div>
+        </form>
+
+        <div class="templates">
+            <h2>Templates</h2>
+            <div class="template-btns">
+                <button class="template-btn" onclick="useTemplate('X6RgzCXb')">8 safe letters or digits</button>
+                <button class="template-btn" onclick="useTemplate('HROJSF')">6 capital letters</button>
+                <button class="template-btn" onclick="useTemplate('IQ24-EUZP-IUGY-935R')">Gift card or serial numbers</button>
+                <button class="template-btn" onclick="useTemplate('EUR-KYZTQ-2021')">Codes with prefix/postfix</button>
+                <button class="template-btn" onclick="useTemplate('FR38_SH1PP2NG_N8W')">Pattern-based codes</button>
+            </div>
+        </div>
+
+        <div id="generatedCodes">
+            <!-- Copy All button will be dynamically added by JavaScript -->
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
