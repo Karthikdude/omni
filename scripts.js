@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.generateCodes = function() {
         const numCodes = parseInt(document.getElementById('numCodes').value) || 1;
+        const codeLength = parseInt(document.getElementById('codeLength').value) || 10;
+        const charset = document.getElementById('charset').value || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const prefix = document.getElementById('prefix').value || '';
+        const postfix = document.getElementById('postfix').value || '';
+        const pattern = document.getElementById('pattern').value || '';
         const exampleCodes = document.getElementById('exampleCodes').value.split('\n').filter(code => code.trim());
 
         let codes = [];
@@ -25,24 +30,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (exampleCodes.length > 0) {
             // Generate similar codes based on example codes
             for (let i = 0; i < numCodes; i++) {
-                codes.push(generateSimilarCode(exampleCodes[i % exampleCodes.length]));
+                let newCode;
+                do {
+                    newCode = generateSimilarCode(exampleCodes[i % exampleCodes.length], charset, prefix, postfix);
+                } while (exampleCodes.includes(newCode)); // Ensure it's not the same as any example code
+                codes.push(newCode);
+            }
+        } else if (pattern) {
+            // Generate codes based on the provided pattern
+            for (let i = 0; i < numCodes; i++) {
+                codes.push(generatePatternCode(pattern, charset, prefix, postfix));
             }
         } else {
-            // Fallback to default code generation logic if no example codes are provided
-            const codeLength = parseInt(document.getElementById('codeLength').value) || 10;
-            const charset = document.getElementById('charset').value || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            const prefix = document.getElementById('prefix').value || '';
-            const postfix = document.getElementById('postfix').value || '';
-            const pattern = document.getElementById('pattern').value || '';
-
-            if (pattern) {
-                for (let i = 0; i < numCodes; i++) {
-                    codes.push(generatePatternCode(pattern, charset, prefix, postfix));
-                }
-            } else {
-                for (let i = 0; i < numCodes; i++) {
-                    codes.push(generateRandomCode(codeLength, charset, prefix, postfix));
-                }
+            // Generate random codes based on the provided parameters
+            for (let i = 0; i < numCodes; i++) {
+                codes.push(generateRandomCode(codeLength, charset, prefix, postfix));
             }
         }
 
@@ -65,30 +67,25 @@ document.addEventListener('DOMContentLoaded', () => {
         return prefix + code + postfix;
     }
 
-    function generateSimilarCode(exampleCode) {
+    function generateSimilarCode(exampleCode, charset, prefix, postfix) {
         const pattern = extractPattern(exampleCode);
         let similarCode = '';
 
         for (let i = 0; i < pattern.length; i++) {
             if (pattern[i] === '#') {
-                similarCode += generateRandomCharacter();
+                similarCode += charset.charAt(Math.floor(Math.random() * charset.length));
             } else {
                 similarCode += pattern[i];
             }
         }
 
-        return similarCode;
+        return prefix + similarCode + postfix;
     }
 
     function extractPattern(exampleCode) {
         return exampleCode.split('').map(char => {
             return /[A-Z0-9]/.test(char) ? '#' : char;
         }).join('');
-    }
-
-    function generateRandomCharacter() {
-        const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Define charset for random characters
-        return charset.charAt(Math.floor(Math.random() * charset.length));
     }
 
     window.useTemplate = function(template) {
